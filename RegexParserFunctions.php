@@ -63,6 +63,7 @@ class RegexParserFunctions {
 
     /**
      * Performs regular expression search or replacement.
+     *
      * @param Parser $parser Instance of running Parser.
      * @param String $subject Input string to evaluate.
      * @param String $pattern Regular expression pattern - must use /, | or % delimiter
@@ -73,7 +74,7 @@ class RegexParserFunctions {
         if ( $subject === null || $pattern === null) {
             return '';
         }
-        $acceptable = '/^([\\/\\|%]).*\\1[imsu]*$/';
+        $acceptable = '/^([\\/\\|%])[^\0]*\\1[imsu]*$/s';
         if ( !preg_match( $acceptable, $pattern ) ) {
             return wfMsg( 'regexp-unacceptable', $pattern );
         }
