@@ -1,25 +1,21 @@
-<?php //{{MediaWikiExtension}}<source lang="php">
+<?php
 /*
  * RegexParserFunctions.php - Allows regular expression search and replace within a string
- * @author Jim R. Wilson
- * @version 0.1
- * @copyright Copyright (C) 2007 Jim R. Wilson
+ * @author Jim R. Wilson, Vitaliy Filippov
+ * @version 2015-10-22
+ * @copyright Copyright (c) 2007 Jim R. Wilson, (c) 2011+ Vitaliy Filippov
  * @license The MIT License - http://www.opensource.org/licenses/mit-license.php
  * -----------------------------------------------------------------------
  * Description:
  *     This is a MediaWiki extension which adds a parser function for performing
  *     regular expression searches and replacements.
  * Requirements:
- *     MediaWiki 1.6.x, 1.9.x, 1.10.x or higher
- *     PHP 4.x, 5.x or higher.
+ *     MediaWiki 1.16.x or higher
  * Installation:
  *     1. Drop this script (RegexParserFunctions.php) in $IP/extensions
  *         Note: $IP is your MediaWiki install dir.
  *     2. Enable the extension by adding this line to your LocalSettings.php:
  *         require_once('extensions/RegexParserFunctions.php');
- * Version Notes:
- *     version 0.1:
- *         Initial release.
  * -----------------------------------------------------------------------
  * Copyright (c) 2007 Jim R. Wilson
  *
@@ -45,22 +41,27 @@
  */
 
 # Confirm MW environment
-if (defined('MEDIAWIKI')) {
+if (!defined('MEDIAWIKI'))
+    die("Not in MediaWiki environment");
 
 # Credits
 $wgExtensionCredits['parserhook'][] = array(
     'name'          => 'RegexParserFunctions',
-    'author'        => 'Jim R. Wilson - wilson.jim.r&lt;at&gt;gmail.com',
-    'url'           => 'http://jimbojw.com/wiki/index.php?title=RegexParserFunctions',
+    'author'        => 'Jim R. Wilson (wilson.jim.r<at>gmail.com), Vitaliy Filippov (vitalif<at>mail.ru)',
+    'url'           => 'http://wiki.4intra.net/RegexParserFunctions',
     'description'   => 'Adds a parser function for search and replace using regular expressions.',
-    'version'       => '0.1',
+    'version'       => '2015-10-22',
 );
+
+$wgHooks['LanguageGetMagic'][] = 'RegexParserFunctions::getMagic';
+$wgHooks['ParserFirstCallInit'][] = 'RegexParserFunctions::initParser';
+$wgExtensionMessagesFiles['RegexParserFunctions'] = dirname(__FILE__).'/RegexParserFunctions.i18n.php';
 
 /**
  * Wrapper class for encapsulating Regexp related parser methods
  */
-class RegexParserFunctions {
-
+class RegexParserFunctions
+{
     /**
      * Performs regular expression search or replacement.
      *
@@ -70,7 +71,7 @@ class RegexParserFunctions {
      * @param String $replacement Regular expression replacement.
      * @return String Result of replacing pattern with replacement in string, or matching text if replacement was omitted.
      */
-    function regexParserFunction( $parser, $subject = null, $pattern = null, $replacement = null ) {
+    static function regexParserFunction( $parser, $subject = null, $pattern = null, $replacement = null ) {
         if ( $subject === null || $pattern === null) {
             return '';
         }
@@ -79,7 +80,7 @@ class RegexParserFunctions {
             return wfMsg( 'regexp-unacceptable', $pattern );
         }
         if ( $replacement === null ) {
-            return ( preg_match( $pattern, $subject, $matches ) ? $matches[0] : '');
+            return preg_match( $pattern, $subject, $matches ) ? $matches[0] : '';
         } else {
             return preg_replace( $pattern, $replacement, $subject );
         }
@@ -91,7 +92,7 @@ class RegexParserFunctions {
      * @param $langCode
      * @return Boolean Always true
      */
-    function regexParserFunctionMagic( &$magicWords, $langCode ) {
+    static function getMagic( &$magicWords, $langCode ) {
         $magicWords['regex'] = array( 0, 'regex' );
         $magicWords['regexp'] = array( 0, 'regexp' );
         return true;
@@ -100,18 +101,9 @@ class RegexParserFunctions {
     /**
      * Sets up parser functions
      */
-    function regexParserFunctionSetup( ) {
-        global $wgParser, $wgMessageCache;
-        $wgParser->setFunctionHook( 'regex', array( $this, 'regexParserFunction' ) );
-        $wgParser->setFunctionHook( 'regexp', array( $this, 'regexParserFunction' ) );
+    static function initParser( $parser ) {
+        $parser->setFunctionHook( 'regex', __CLASS__.'::regexParserFunction' );
+        $parser->setFunctionHook( 'regexp', __CLASS__.'::regexParserFunction' );
+        return true;
     }
 }
-
-# Create global instance and wire it up
-$wgRegexParserFunctions = new RegexParserFunctions();
-$wgHooks['LanguageGetMagic'][] = array($wgRegexParserFunctions, 'regexParserFunctionMagic');
-$wgExtensionFunctions[] = array($wgRegexParserFunctions, 'regexParserFunctionSetup');
-$wgExtensionMessagesFiles['RegexParserFunctions'] = dirname(__FILE__).'/RegexParserFunctions.i18n.php';
-
-} # End MW Environment wrapper
-//</source>
