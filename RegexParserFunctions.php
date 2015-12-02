@@ -50,7 +50,7 @@ $wgExtensionCredits['parserhook'][] = array(
     'author'        => 'Jim R. Wilson (wilson.jim.r<at>gmail.com), Vitaliy Filippov (vitalif<at>mail.ru)',
     'url'           => 'http://wiki.4intra.net/RegexParserFunctions',
     'description'   => 'Adds a parser function for search and replace using regular expressions.',
-    'version'       => '2015-10-22',
+    'version'       => '2015-12-02',
 );
 
 $wgHooks['LanguageGetMagic'][] = 'RegexParserFunctions::getMagic';
@@ -86,6 +86,10 @@ class RegexParserFunctions
         }
     }
 
+    static function urlencodeParserFunction( $parser, $value = '' ) {
+        return urlencode( $value );
+    }
+
     /**
      * Adds magic words for parser functions
      * @param Array $magicWords
@@ -95,6 +99,7 @@ class RegexParserFunctions
     static function getMagic( &$magicWords, $langCode ) {
         $magicWords['regex'] = array( 0, 'regex' );
         $magicWords['regexp'] = array( 0, 'regexp' );
+        $magicWords['urlencode'] = array( 0, 'urlencode' );
         return true;
     }
 
@@ -104,6 +109,7 @@ class RegexParserFunctions
     static function initParser( $parser ) {
         $parser->setFunctionHook( 'regex', __CLASS__.'::regexParserFunction' );
         $parser->setFunctionHook( 'regexp', __CLASS__.'::regexParserFunction' );
+        $parser->setFunctionHook( 'urlencode', __CLASS__.'::urlencodeParserFunction' );
         return true;
     }
 }
