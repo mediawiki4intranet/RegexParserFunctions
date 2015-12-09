@@ -90,6 +90,13 @@ class RegexParserFunctions
         return urlencode( $value );
     }
 
+    static function evalParserFunction( $parser ) {
+        $args = func_get_args();
+        array_shift( $args );
+        $args = '{{'.implode( '|', $args ).'}}';
+        return $parser->replaceVariables( $args );
+    }
+
     /**
      * Adds magic words for parser functions
      * @param Array $magicWords
@@ -100,6 +107,7 @@ class RegexParserFunctions
         $magicWords['regex'] = array( 0, 'regex' );
         $magicWords['regexp'] = array( 0, 'regexp' );
         $magicWords['urlencode'] = array( 0, 'urlencode' );
+        $magicWords['eval'] = array( 0, 'eval' );
         return true;
     }
 
@@ -110,6 +118,7 @@ class RegexParserFunctions
         $parser->setFunctionHook( 'regex', __CLASS__.'::regexParserFunction' );
         $parser->setFunctionHook( 'regexp', __CLASS__.'::regexParserFunction' );
         $parser->setFunctionHook( 'urlencode', __CLASS__.'::urlencodeParserFunction' );
+        $parser->setFunctionHook( 'eval', __CLASS__.'::evalParserFunction' );
         return true;
     }
 }
