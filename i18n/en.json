@@ -2,5 +2,5 @@
 	"@metadata": {
 		"authors": []
 	},
-	"regexp-unacceptable": "The regular expression &quot;<tt><nowiki>$1</nowiki></tt>&quot; is invalid."
+	"regexp-invalid": "The regular expression &quot;<tt><nowiki>$1</nowiki></tt>&quot; is invalid."
 }

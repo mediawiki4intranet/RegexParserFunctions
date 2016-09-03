@@ -10,12 +10,14 @@
 			"i18n"
 		]
 	},
+	"ExtensionMessagesFiles": {
+		"RegexParserFunctionsAlias": "RegexParserFunctions.magic.php"
+	},
 	"AutoloadClasses": {
 		"RegexParserFunctions": "RegexParserFunctions.php"
 	},
 	"Hooks": {
-		"LanguageGetMagic": "RegexParserFunctions::getMagic",
-		"ParserFirstCallInit": "RegexParserFunctions::initParser"
+		"ParserFirstCallInit": "RegexParserFunctions::onParserFirstCallInit"
 	},
 	"manifest_version": 1
 }
