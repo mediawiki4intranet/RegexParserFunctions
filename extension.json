@@ -1,0 +1,23 @@
+{
+	"name": "RegexParserFunctions",
+	"version": "2015-12-02",
+	"author": "Jim R. Wilson (wilson.jim.r<at>gmail.com), Vitaliy Filippov (vitalif<at>mail.ru)",
+	"url": "http://wiki.4intra.net/RegexParserFunctions",
+	"description": "Adds a parser function for search and replace using regular expressions.",
+	"type": "parserhook",
+	"MessagesDirs": {
+		"RegexParserFunctions": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"RegexParserFunctionsAlias": "RegexParserFunctions.magic.php"
+	},
+	"AutoloadClasses": {
+		"RegexParserFunctions": "RegexParserFunctions.php"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": "RegexParserFunctions::onParserFirstCallInit"
+	},
+	"manifest_version": 1
+}
