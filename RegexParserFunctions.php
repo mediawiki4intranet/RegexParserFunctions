@@ -77,7 +77,7 @@ class RegexParserFunctions
         }
         $acceptable = '/^([\\/\\|%])[^\0]*\\1[imsu]*$/s';
         if ( !preg_match( $acceptable, $pattern ) ) {
-            return wfMsg( 'regexp-unacceptable', $pattern );
+            return wfMessage( 'regexp-unacceptable', $pattern );
         }
         if ( $replacement === null ) {
             return preg_match( $pattern, $subject, $matches ) ? $matches[0] : '';
