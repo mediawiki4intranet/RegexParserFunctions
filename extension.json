@@ -1,0 +1,30 @@
+{
+    "name": "RegexParserFunctions",
+    "version": "2026-03-07",
+    "author": [
+        "Jim R. Wilson",
+        "Vitaliy Filippov"
+    ],
+    "url": "https://www.mediawiki.org/wiki/Extension:RegexParserFunctions",
+    "descriptionmsg": "regexparserfunctions-desc",
+    "license-name": "MIT",
+    "type": "parserhook",
+    "requires": {
+        "MediaWiki": ">= 1.40.0"
+    },
+    "MessagesDirs": {
+        "RegexParserFunctions": [
+            "i18n"
+        ]
+    },
+    "ExtensionMessagesFiles": {
+        "RegexParserFunctionsMagic": "RegexParserFunctions.i18n.magic.php"
+    },
+    "AutoloadNamespaces": {
+        "MediaWiki\\Extension\\RegexParserFunctions\\": "src/"
+    },
+    "Hooks": {
+        "ParserFirstCallInit": "MediaWiki\\Extension\\RegexParserFunctions\\Hooks::onParserFirstCallInit"
+    },
+    "manifest_version": 2
+}

@@ -1,0 +1,10 @@
+{
+    "@metadata": {
+        "authors": [
+            "Jim R. Wilson",
+            "Vitaliy Filippov"
+        ]
+    },
+    "regexparserfunctions-desc": "{{desc|name=Regex Parser Functions|url=https://www.mediawiki.org/wiki/Extension:RegexParserFunctions}}",
+    "regexp-unacceptable": "Error message shown when the provided regular expression is invalid or uses an unacceptable delimiter. Parameters:\n* $1 - the invalid regular expression pattern."
+}

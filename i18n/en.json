@@ -1,0 +1,10 @@
+{
+    "@metadata": {
+        "authors": [
+            "Jim R. Wilson",
+            "Vitaliy Filippov"
+        ]
+    },
+    "regexparserfunctions-desc": "Adds a parser function for search and replace using regular expressions.",
+    "regexp-unacceptable": "The regular expression \"<tt><nowiki>$1</nowiki></tt>\" is unacceptable."
+}
